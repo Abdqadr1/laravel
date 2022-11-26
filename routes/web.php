@@ -24,3 +24,7 @@ Route::get('/test', [TestController::class, 'test']);
 Route::get("/wild/{id}", [TestController::class, 'wild']);
 
 Route::get('/customer', [CustomerController::class, 'getCustomer']);
+Route::post('/customer', [CustomerController::class, 'create']);
+
+Route::get('/customer/add', [CustomerController::class, 'toCreate']);
+Route::get('/customer/{id}', [CustomerController::class, 'getCustomerById']);

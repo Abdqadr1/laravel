@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string("name", 100);
             $table->integer("age");
             $table->string("country", 40);
+            $table->string("password");
+            $table->json("hobbies");
             $table->timestamps();
         });
     }

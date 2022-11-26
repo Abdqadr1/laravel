@@ -370,3 +370,27 @@ grid-template-columns: repeat(1, minmax(0, 1fr))
 body {
 font-family: 'Nunito', sans-serif;
 }
+
+.postform{
+    margin: auto;
+    width: 300px;
+    display: flex;
+    gap: .3em;
+    flex-direction: column;
+    padding: .5em;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.postform>input{
+    width: 100%;
+    height: 40px;
+    border: 1px solid grey;
+    padding-inline: 5px;
+    border-radius: 5px;
+}
+.postform>input[type='submit']{
+    background-color: rgb(82, 195, 82);
+    font-size: medium;
+    font-weight: bold;
+    color: #e2e8f0;
+}

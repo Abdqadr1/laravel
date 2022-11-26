@@ -368,18 +368,26 @@
             @if($price > 10)
             <p> price is greater than 10 </p>
             @elseif ($price < 5) <p>price is less than 5</p>
-                @else
-                <p>price is something else</p>
-                @endif
+            @else
+            <p>price is something else</p>
+            @endif
 
-                @unless($lang != "php")
-                <div>the lang is php</div>
-                @endunless
+            @unless($lang != "php")
+            <div>the lang is php</div>
+            @endunless
 
-                @php
-                $name = "yeah yeah";
-                echo $name;
-                @endphp
+            @php
+            $name = "yeah yeah";
+            echo $name;
+            @endphp
+
+            @for($i=0; $i < count($fruits); $i++) 
+                <p>for looping - {{ $fruits[$i] }}</p>
+            @endfor
+
+            @foreach ($fruits as $fruit)
+                <p>{{$loop->index + 1}} - {{ $fruit }}</p>
+            @endforeach
         </div>
     </div>
 </body>

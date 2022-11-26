@@ -21,7 +21,8 @@ Route::get('/test', function () {
     return view('test', [
         "type" => "laravel",
         "lang" => "php",
-        "price" => 5
+        "price" => 5,
+        "fruits" => ["orange", "grape", "banana"]
     ]);
     // return  "test string";
     // return ["json", "string"];

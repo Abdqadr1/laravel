@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return view('test', [
-        "type" => "laravel",
-        "lang" => "php",
-        "price" => 5,
-        "fruits" => ["orange", "grape", "banana"]
-    ]);
-    // return  "test string";
-    // return ["json", "string"];
-});
+Route::get('/test', [TestController::class, 'test']);
+
+Route::get("/wild/{id}", [TestController::class, 'wild']);
+
+Route::get('/customer', [CustomerController::class, 'getCustomer']);

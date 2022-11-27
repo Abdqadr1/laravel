@@ -7,6 +7,10 @@ use App\Models\Customer;
 
 class CustomerController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware("auth");
+    // }
     //
     public function getCustomer()
     {
@@ -47,5 +51,11 @@ class CustomerController extends Controller
         $customer->save();
         $id = $customer->id;
         return redirect('/customer')->with('message', "$id Customer added");
+    }
+    public function delete($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
+        return redirect('/customer')->with('message', "Customer deleted");
     }
 }

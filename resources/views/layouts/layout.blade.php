@@ -12,6 +12,9 @@
 
     <link rel="stylesheet" href="/css/style.css" />
 
+     <!-- Scripts -->
+    @viteReactRefresh
+    @vite(['resources/sass/main.scss'])
 </head>
 
 <body class="antialiased">

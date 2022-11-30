@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
     //
+    private $EMPLOYEE_PER_PAGE = 5;
     public function __construct()
     {
         $this->middleware("auth");
@@ -14,7 +16,15 @@ class EmployeeController extends Controller
 
     public function view()
     {
-        return view('employee.view');
+        $paginator = Employee::paginate($this->EMPLOYEE_PER_PAGE);
+        error_log($paginator->nextPageUrl());
+        return view('employee.view', [
+            'employees' => $paginator->items(),
+            'count' => $paginator->count(),
+            'currentPage' => $paginator->currentPage(),
+            'total' => $paginator->total(),
+            'nextPage' => $paginator->nextPageUrl(),
+        ]);
     }
 
     public function add()
@@ -32,8 +42,14 @@ class EmployeeController extends Controller
         return view('employee.settings');
     }
 
-    public function addEmployee()
+    public function addEmployee(Request $request)
     {
-        error_log(request('name'));
+        $employee = new Employee;
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->date_joined = now();
+
+        $employee->save();
+        return redirect(route('view'))->with('message', 'Employee added successfully');
     }
 }

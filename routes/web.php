@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
-Auth::routes();
+Auth::routes([
+    'register' => false
+]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/view', [EmployeeController::class, 'view'])->name('view');
+
+Route::get('/add', [EmployeeController::class, 'add'])->name('add');
+Route::post('/add', [EmployeeController::class, 'addEmployee'])->name('add-post');
+
+Route::get('/payroll', [EmployeeController::class, 'payroll'])->name('payroll');
+
+Route::get('/settings', [EmployeeController::class, 'settings'])->name('settings');

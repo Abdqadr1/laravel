@@ -17,6 +17,30 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div>
+            <div class="container text-center">
+                <div class="row gy-4">
+                    <div class="col">
+                        <div class="border action">
+                            <a href="{{route('view')}}">View Employee</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="border action">
+                            <a href="{{route('add')}}">Add Employee</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="border action">
+                           <a href="{{route('payroll')}}">Employee Payroll</a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="border action">
+                            <a href="{{route('settings')}}">Employee Settings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

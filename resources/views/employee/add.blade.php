@@ -8,12 +8,17 @@
             <form action="{{route('add-post')}}" method="POST" class="add-form border" >
                 @csrf
                 <div class="mb-3">
-                    <label for="name" class="form-label">Email address</label>
+                    <label for="name" class="form-label">Name</label>
                     <input type="name" name="name" class="form-control" id="name" placeholder="Name">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="Email address">
+                     @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <button type="submit" class="btn btn-success">Add Employee</button>
             </form>

@@ -16,14 +16,9 @@ class EmployeeController extends Controller
 
     public function view()
     {
-        $paginator = Employee::paginate($this->EMPLOYEE_PER_PAGE);
-        error_log($paginator->nextPageUrl());
+        $employees = Employee::paginate($this->EMPLOYEE_PER_PAGE);
         return view('employee.view', [
-            'employees' => $paginator->items(),
-            'count' => $paginator->count(),
-            'currentPage' => $paginator->currentPage(),
-            'total' => $paginator->total(),
-            'nextPage' => $paginator->nextPageUrl(),
+            'employees' => $employees
         ]);
     }
 
@@ -46,10 +41,28 @@ class EmployeeController extends Controller
     {
         $employee = new Employee;
         $employee->name = $request->name;
-        $employee->email = $request->email;
+        $email = $request->email;
+        $employee->email = $email;
         $employee->date_joined = now();
 
         $employee->save();
+        MailController::sendRegistrationMail([
+            'message' => "You have been registered as an employee at our company",
+            'subject' => "Employee Registration",
+            'from' => "registration@employee.com",
+            'view' => "emails.registration",
+            'to' => $email,
+        ]);
         return redirect(route('view'))->with('message', 'Employee added successfully');
+    }
+
+    public function edit($id)
+    {
+        $employee = Employee::findOrFail($id);
+    }
+
+    public function delete($id)
+    {
+        $employee = Employee::findOrFail($id);
     }
 }

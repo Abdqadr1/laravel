@@ -5,7 +5,8 @@
     <div class="row justify-content-center">
         <p>{{ session('message') }}</p>
         <div class="col-md-8">
-            All Employees
+            <h3 class="text-center mb-3">Employees Data</h3>
+            
             <table class="table table-striped border table-hover my-2">
                 <thead>
                     <tr>
@@ -21,23 +22,27 @@
                             <td>{{$emp->name}}</td>
                             <td>{{$emp->email}}</td>
                             <td>false</td>
-                            <td>edit and delete</td>
+                            <td class="d-flex justify-content-start">
+                                <form title="delete" action="{{ route('emp.delete', $emp->id) }}" 
+                                    method="POST" class="delete-form">
+                                    @method('delete')
+                                    <button type="submit">
+                                        <i class="bi bi-archive border text-danger px-2 py-1 rounded border-info"></i>
+                                    </button>
+                                </form>
+                                <a href="{{ route('emp.edit', $emp->id) }}">
+                                    <i class="bi bi-pen border border-info px-2 py-1 rounded text-primary"></i>
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
+            <div class="d-flex justify-content-center">
+               {{ $employees->onEachSide(4)->links() }}
+            </div>
         </div>
     </div>
 
-    {{$count . $currentPage. $nextPage}}
 </div>
 @endsection

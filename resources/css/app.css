@@ -23,3 +23,9 @@
     appearance: button;
 
 }
+.delete-form>button{
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+}

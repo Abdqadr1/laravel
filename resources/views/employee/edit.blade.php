@@ -21,6 +21,15 @@
                         </span>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <input type="checkbox" name="status" class="form-check" id="status" {{ ($employee->status) ? "checked" : "" }}>
+                </div>
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="number" name="salary" class="form-control" id="salary" step="0.01"
+                        placeholder="Salary" value="{{$employee->salary}}">
+                </div>
                 <button type="submit" class="btn btn-success">Edit Employee</button>
             </form>
         </div>

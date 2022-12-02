@@ -20,6 +20,14 @@
                         </span>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <input type="checkbox" name="status" class="form-check" id="status">
+                </div>
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="number" name="salary" class="form-control" id="salary" step="0.01" placeholder="Salary">
+                </div>
                 <button type="submit" class="btn btn-success">Add Employee</button>
             </form>
         </div>

@@ -9,4 +9,7 @@ class Employee extends Model
 {
     use HasFactory;
     protected $table = "employees";
+    protected $casts = [
+        // 'status' => 'boolean'
+    ];
 }

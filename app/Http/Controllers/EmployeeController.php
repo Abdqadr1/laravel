@@ -16,7 +16,7 @@ class EmployeeController extends Controller
 
     public function view()
     {
-        $employees = Employee::paginate($this->EMPLOYEE_PER_PAGE);
+        $employees = Employee::orderBy('created_at', 'DESC')->paginate($this->EMPLOYEE_PER_PAGE);
         return view('employee.view', [
             'employees' => $employees
         ]);
@@ -41,6 +41,8 @@ class EmployeeController extends Controller
     {
         $employee = new Employee;
         $employee->name = $request->name;
+        $employee->status = $request->boolean('status');
+        $employee->salary = $request->salary;
         $email = $request->email;
         $employee->email = $email;
         $employee->date_joined = now();
@@ -69,17 +71,19 @@ class EmployeeController extends Controller
         $id = $request->route('id');
         $employee = Employee::findOrFail($id);
         $employee->name = $request->name;
+        $employee->status = $request->boolean('status');
+        $employee->salary = $request->salary;
         $email = $request->email;
         $employee->email = $email;
 
         $employee->save();
-        MailController::sendRegistrationMail([
-            'message' => "Your detail have been updated",
-            'subject' => "Employee Registration",
-            'from' => "registration@employee.com",
-            'view' => "emails.registration",
-            'to' => $email,
-        ]);
+        // MailController::sendRegistrationMail([
+        //     'message' => "Your detail have been updated",
+        //     'subject' => "Employee Registration",
+        //     'from' => "registration@employee.com",
+        //     'view' => "emails.registration",
+        //     'to' => $email,
+        // ]);
         return redirect(route('view'))->with('message', 'Employee updated successfully');
     }
 

@@ -13,6 +13,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">ID</th>
                         <th scope="col">Email Address</th>
+                        <th scope="col">Annual Salary</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -23,7 +24,14 @@
                             <td>{{$emp->id}}</td>
                             <td>{{$emp->name}}</td>
                             <td>{{$emp->email}}</td>
-                            <td>false</td>
+                            <td>{{$emp->salary}}</td>
+                            <td>
+                                @if (json_encode($emp->status))
+                                    <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                @else
+                                    <i class="bi bi-circle text-danger fs-5"></i>
+                                @endif
+                            </td>
                             <td class="d-flex justify-content-start">
                                 <form title="delete" action="{{ route('emp.delete', $emp->id) }}" 
                                     method="POST" class="delete-form">

@@ -59,6 +59,28 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
+        return view('employee.edit', [
+            'employee' => $employee
+        ]);
+    }
+
+    public function editEmployee(Request $request)
+    {
+        $id = $request->route('id');
+        $employee = Employee::findOrFail($id);
+        $employee->name = $request->name;
+        $email = $request->email;
+        $employee->email = $email;
+
+        $employee->save();
+        MailController::sendRegistrationMail([
+            'message' => "Your detail have been updated",
+            'subject' => "Employee Registration",
+            'from' => "registration@employee.com",
+            'view' => "emails.registration",
+            'to' => $email,
+        ]);
+        return redirect(route('view'))->with('message', 'Employee updated successfully');
     }
 
     public function delete($id)

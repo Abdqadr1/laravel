@@ -30,7 +30,8 @@ Route::get('/view', [EmployeeController::class, 'view'])->name('view');
 Route::get('/add', [EmployeeController::class, 'add'])->name('add');
 Route::post('/add', [EmployeeController::class, 'addEmployee'])->name('add-post');
 
-Route::put('/edit/{id}', [EmployeeController::class, 'edit'])->name('emp.edit');
+Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('emp.edit');
+Route::put('/edit/{id}', [EmployeeController::class, 'editEmployee'])->name('emp.edit.put');
 Route::delete('/delete/{id}', [EmployeeController::class, 'delete'])->name('emp.delete');
 
 Route::get('/payroll', [EmployeeController::class, 'payroll'])->name('payroll');

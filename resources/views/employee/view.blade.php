@@ -11,6 +11,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Name</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Email Address</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
@@ -19,6 +20,7 @@
                 <tbody>
                     @foreach ($employees as $emp)
                         <tr>
+                            <td>{{$emp->id}}</td>
                             <td>{{$emp->name}}</td>
                             <td>{{$emp->email}}</td>
                             <td>false</td>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
@@ -46,8 +47,12 @@ class EmployeeController extends Controller
         $email = $request->email;
         $employee->email = $email;
         $employee->date_joined = now();
-
         $employee->save();
+        $address = new Address;
+        $address->street = $request->input('address');
+        $address->country = $request->input('country');
+        $employee->address()->save($address);
+
         MailController::sendRegistrationMail([
             'message' => "You have been registered as an employee at our company",
             'subject' => "Employee Registration",

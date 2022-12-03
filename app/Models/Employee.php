@@ -12,4 +12,12 @@ class Employee extends Model
     protected $casts = [
         // 'status' => 'boolean'
     ];
+
+    public function address()
+    {
+        return $this->hasOne(Address::class, 'emp_id')->withDefault([
+            'street' => '',
+            'country' => ''
+        ]);
+    }
 }

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <p>{{ session('message') }}</p>
-        <div class="col-md-8">
+        <div class="col-md-11">
             <h3 class="text-center mb-3">Employees Data</h3>
             
             <table class="table table-striped border table-hover my-2">
@@ -13,6 +13,8 @@
                         <th scope="col">Name</th>
                         <th scope="col">ID</th>
                         <th scope="col">Email Address</th>
+                        <th scope="col">street Address</th>
+                        <th scope="col">Country</th>
                         <th scope="col">Annual Salary</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
@@ -24,6 +26,8 @@
                             <td>{{$emp->id}}</td>
                             <td>{{$emp->name}}</td>
                             <td>{{$emp->email}}</td>
+                            <td>{{$emp->address->street}}</td>
+                            <td>{{$emp->address->country}}</td>
                             <td>{{$emp->salary}}</td>
                             <td>
                                 @if (json_encode($emp->status))

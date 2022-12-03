@@ -28,6 +28,14 @@
                     <label for="salary" class="form-label">Salary</label>
                     <input type="number" name="salary" class="form-control" id="salary" step="0.01" placeholder="Salary">
                 </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input name="address" class="form-control" id="address" placeholder="Address">
+                </div>
+                <div class="mb-3">
+                    <label for="country" class="form-label">Country</label>
+                    <input name="country" class="form-control" id="country" placeholder="Country">
+                </div>
                 <button type="submit" class="btn btn-success">Add Employee</button>
             </form>
         </div>

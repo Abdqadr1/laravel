@@ -16,6 +16,7 @@
                         <th scope="col">street Address</th>
                         <th scope="col">Country</th>
                         <th scope="col">Annual Salary</th>
+                        <th scope="col">Tasks</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -29,6 +30,7 @@
                             <td>{{$emp->address->street}}</td>
                             <td>{{$emp->address->country}}</td>
                             <td>{{$emp->salary}}</td>
+                            <td>{{ count($emp->tasks) }}</td>
                             <td>
                                 @if (json_encode($emp->status))
                                     <i class="bi bi-check-circle-fill text-success fs-5"></i>

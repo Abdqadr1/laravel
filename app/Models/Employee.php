@@ -21,6 +21,10 @@ class Employee extends Model
             'country' => ''
         ]);
     }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'task_for');
+    }
     public function setAddress($values)
     {
         if ($this->address()->exists()) {

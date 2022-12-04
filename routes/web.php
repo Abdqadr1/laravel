@@ -27,13 +27,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/view', [EmployeeController::class, 'view'])->name('view');
 
-Route::get('/add', [EmployeeController::class, 'add'])->name('add');
-Route::post('/add', [EmployeeController::class, 'addEmployee'])->name('add-post');
+Route::get('/employee/add', [EmployeeController::class, 'add'])->name('add');
+Route::post('/employee/add', [EmployeeController::class, 'addEmployee'])->name('add-post');
+Route::post('/task/add', [EmployeeController::class, 'addTask'])->name('add.task');
 
-Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('emp.edit');
-Route::put('/edit/{id}', [EmployeeController::class, 'editEmployee'])->name('emp.edit.put');
-Route::delete('/delete/{id}', [EmployeeController::class, 'delete'])->name('emp.delete');
+Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('emp.edit');
+Route::put('/employee/edit/{id}', [EmployeeController::class, 'editEmployee'])->name('emp.edit.put');
+Route::delete('/employee/delete/{id}', [EmployeeController::class, 'delete'])->name('emp.delete');
 
-Route::get('/payroll', [EmployeeController::class, 'payroll'])->name('payroll');
+Route::get('/task/add', [EmployeeController::class, 'task'])->name('task');
 
 Route::get('/settings', [EmployeeController::class, 'settings'])->name('settings');

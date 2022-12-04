@@ -31,7 +31,7 @@
                     </div>
                     <div class="col">
                         <div class="border action">
-                           <a href="{{route('payroll')}}">Employee Payroll</a>
+                           <a href="{{route('task')}}">Add Task</a>
                         </div>
                     </div>
                     <div class="col">

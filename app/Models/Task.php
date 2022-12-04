@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class Task extends Model
 {
     use HasFactory;
-    protected $fillable = ['street', 'country'];
+    protected $fillable = ['name', 'deadline', 'task_for'];
 
     public function owner()
     {
-        return $this->belongsTo(Employee::class, "emp_id", "id");
+        return $this->belongsTo(Employee::class, 'task_for');
     }
 }

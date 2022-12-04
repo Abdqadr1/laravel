@@ -42,6 +42,20 @@
                 <button type="submit" class="btn btn-success">Edit Employee</button>
             </form>
         </div>
+        <div class="col-md-3">
+            <h4 class="text-center mb-2">Tasks</h4>
+            @if (count($employee->tasks) > 0)
+                @foreach ($employee->tasks as $task)
+                    <div class="p-3 border border-success rounded d-flex justify-content-center my-2">
+                        <span class="me-2">{{ $task->name }}</span>
+                        <span class="ms-2">{{ $task->deadline }}</span>
+                    </div>
+                @endforeach
+            @else
+                <div class="text-center my-4">You have no task</div>
+            @endif
+            
+        </div>
     </div>
 </div>
 @endsection

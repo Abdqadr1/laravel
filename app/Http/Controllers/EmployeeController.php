@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Employee;
+use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -34,9 +36,10 @@ class EmployeeController extends Controller
         return view('employee.add');
     }
 
-    public function payroll()
+    public function task()
     {
-        return view('employee.payroll');
+
+        return view('task.add');
     }
 
     public function settings()
@@ -108,5 +111,25 @@ class EmployeeController extends Controller
         $employee->delete();
         // dd($employee);
         return redirect(route('view'))->with('message', 'Employee deleted successfully');
+    }
+
+
+    public function addTask(Request $request)
+    {
+        $task = new Task;
+        $deadline = $request->input('deadline');
+        $deadline = Carbon::parse($deadline)->format('Y-m-d H:i:s');
+        $id = $request->input('employee_id');
+        $employee = Employee::find($id);
+        if ($employee === null) {
+            return redirect(route('add.task'))->with('error', "Employee with id $id does not exist");
+        }
+        error_log($deadline);
+        Task::create([
+            'name' => $request->input('name'),
+            'deadline' => $deadline,
+            'task_for' => $id
+        ]);
+        return redirect(route('add.task'))->with('message', "Task added successfully");
     }
 }

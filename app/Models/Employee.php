@@ -12,6 +12,7 @@ class Employee extends Model
     protected $casts = [
         // 'status' => 'boolean'
     ];
+    protected $fillable = ["name", 'email', 'status', 'salary', 'address', ''];
 
     public function address()
     {
@@ -19,5 +20,13 @@ class Employee extends Model
             'street' => '',
             'country' => ''
         ]);
+    }
+    public function setAddress($values)
+    {
+        if ($this->address()->exists()) {
+            $this->address()->update($values);
+        } else {
+            $this->address()->create($values);
+        }
     }
 }

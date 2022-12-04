@@ -30,6 +30,15 @@
                     <input type="number" name="salary" class="form-control" id="salary" step="0.01"
                         placeholder="Salary" value="{{$employee->salary}}">
                 </div>
+                <div class="form-floating mb-3">
+                    <input  name="address" class="form-control" id="address" placeholder="Address" value="{{$employee->address->street}}" required>
+                    <label for="address">Address</label>
+                </div>
+                <div class="mb-3">
+                    <label for="country" class="form-label">Country</label>
+                    <input name="country" class="form-control" id="country" placeholder="Country" value="{{$employee->address->country}}"
+                    >
+                </div>
                 <button type="submit" class="btn btn-success">Edit Employee</button>
             </form>
         </div>

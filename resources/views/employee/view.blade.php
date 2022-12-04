@@ -37,9 +37,9 @@
                                 @endif
                             </td>
                             <td class="d-flex justify-content-start">
-                                <form title="delete" action="{{ route('emp.delete', $emp->id) }}" 
-                                    method="POST" class="delete-form">
+                                <form title="delete" action="{{ route('emp.delete', $emp->id) }}" method="post" class="delete-form">
                                     @method('delete')
+                                    @csrf
                                     <button type="submit">
                                         <i class="bi bi-archive border text-danger px-2 py-1 rounded border-info"></i>
                                     </button>
@@ -53,7 +53,7 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">
-               {{ $employees->onEachSide(4)->links() }}
+               {{ $employees->onEachSide(3)->links() }}
             </div>
         </div>
     </div>

@@ -16,7 +16,10 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Employee::class, "emp_id");
+            $table->foreignIdFor(Employee::class, "emp_id")
+                ->constrained("employees")
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('street', 200)->default("");
             $table->string("country", 100)->default("");
             $table->timestamps();

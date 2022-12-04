@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class EmployeeController extends Controller
 {
     //
-    private $EMPLOYEE_PER_PAGE = 5;
+    const EMPLOYEE_PER_PAGE = 5;
     public function __construct()
     {
         $this->middleware("auth");
@@ -17,7 +17,13 @@ class EmployeeController extends Controller
 
     public function view()
     {
-        $employees = Employee::orderBy('created_at', 'DESC')->paginate($this->EMPLOYEE_PER_PAGE);
+        $employees = Employee::orderBy('created_at', 'DESC')
+            // ->has('address')
+            // ->doesntHave('address')
+            // ->whereHas('address', function ($query) {  $query->where('street', 'like', '%i%'); })
+            ->with('address')
+            ->paginate(self::EMPLOYEE_PER_PAGE);
+
         return view('employee.view', [
             'employees' => $employees
         ]);
@@ -75,13 +81,17 @@ class EmployeeController extends Controller
     {
         $id = $request->route('id');
         $employee = Employee::findOrFail($id);
-        $employee->name = $request->name;
-        $employee->status = $request->boolean('status');
-        $employee->salary = $request->salary;
-        $email = $request->email;
-        $employee->email = $email;
+        $employee->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'status' => $request->boolean('status'),
+            'salary' => $request->salary,
+        ]);
+        $employee->setAddress([
+            'street' => $request->address,
+            'country' => empty($request->country) ? "" : $request->country
+        ]);
 
-        $employee->save();
         // MailController::sendRegistrationMail([
         //     'message' => "Your detail have been updated",
         //     'subject' => "Employee Registration",
@@ -95,5 +105,8 @@ class EmployeeController extends Controller
     public function delete($id)
     {
         $employee = Employee::findOrFail($id);
+        $employee->delete();
+        // dd($employee);
+        return redirect(route('view'))->with('message', 'Employee deleted successfully');
     }
 }

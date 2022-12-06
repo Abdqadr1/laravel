@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            Add Employee
-            <form action="{{route('add-post')}}" method="POST" class="add-form border" >
-                @csrf
+    <form action="{{route('add-post')}}" method="POST" class="border p-2">
+        @csrf
+        <h3 class="text-center">Add Employee</h3>
+        <div class="row justify-content-around">
+            <div class="col-md-6">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="name" name="name" class="form-control" id="name" placeholder="Name">
@@ -37,9 +37,23 @@
                     <label for="country" class="form-label">Country</label>
                     <input name="country" class="form-control" id="country" placeholder="Country">
                 </div>
-                <button type="submit" class="btn btn-success">Add Employee</button>
-            </form>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="" class="form-label">Roles</label>
+                    @foreach ($roles as $role)
+                        <div class="form-check">
+                            <input name="roles[]" class="form-check-input" type="checkbox" value="{{$role->id}}" id="{{$role->name}}">
+                            <label class="form-check-label" for="{{$role->name}}">
+                                {{$role->name}}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
         </div>
-    </div>
+        <button type="submit" class="btn btn-success">Add Employee</button>
+    </form>
 </div>
 @endsection

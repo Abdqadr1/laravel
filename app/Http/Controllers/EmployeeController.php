@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Employee;
+use App\Models\Role;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -33,7 +35,8 @@ class EmployeeController extends Controller
 
     public function add()
     {
-        return view('employee.add');
+        $roles = Role::orderBy("name")->get();
+        return view('employee.add', ['roles' => $roles]);
     }
 
     public function task()
@@ -56,11 +59,18 @@ class EmployeeController extends Controller
         $email = $request->email;
         $employee->email = $email;
         $employee->date_joined = now();
-        $employee->save();
         $address = new Address;
         $address->street = $request->input('address');
         $address->country = $request->input('country');
+
+        // error_log(json_encode($request->roles));
+        // foreach ($request->roles as $role) error_log($role);
+
+        // DB::transaction(function ($employee, $address, $request) {
+        $employee->save();
         $employee->address()->save($address);
+        $employee->roles()->sync($request->roles);
+        // });
 
         MailController::sendRegistrationMail([
             'message' => "You have been registered as an employee at our company",

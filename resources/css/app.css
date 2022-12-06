@@ -19,9 +19,9 @@
     margin: auto;
 }
 
+
 .add-form>button{
     appearance: button;
-
 }
 .delete-form>button{
     appearance: none;

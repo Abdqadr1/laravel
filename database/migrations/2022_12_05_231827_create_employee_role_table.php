@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Employee::class, "employee_id")->constrained('employees');
             $table->foreignIdFor(Role::class, "role_id")->constrained('roles');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

@@ -13,6 +13,6 @@ class Role extends Model
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class, 'employee_role')->withPivot(['name', 'email']);
+        return $this->belongsToMany(Employee::class, 'employee_role');
     }
 }

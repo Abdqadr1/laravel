@@ -85,14 +85,22 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
+        $emp_roles = $employee->roles->map(function ($role) {
+            return $role->id;
+        });
+        $roles = Role::orderBy("name")->get();
         return view('employee.edit', [
-            'employee' => $employee
+            'employee' => $employee,
+            'roles' => $roles,
+            'emp_roles' => $emp_roles,
         ]);
     }
 
     public function editEmployee(Request $request)
     {
         $id = $request->route('id');
+        foreach ($request->roles as $role) error_log($role);
+
         $employee = Employee::findOrFail($id);
         $employee->update([
             'name' => $request->name,
@@ -104,6 +112,9 @@ class EmployeeController extends Controller
             'street' => $request->address,
             'country' => empty($request->country) ? "" : $request->country
         ]);
+
+        $employee->roles()->sync($request->roles);
+
 
         // MailController::sendRegistrationMail([
         //     'message' => "Your detail have been updated",
@@ -118,6 +129,7 @@ class EmployeeController extends Controller
     public function delete($id)
     {
         $employee = Employee::findOrFail($id);
+        $employee->roles()->detach();
         $employee->delete();
         // dd($employee);
         return redirect(route('view'))->with('message', 'Employee deleted successfully');
@@ -126,7 +138,6 @@ class EmployeeController extends Controller
 
     public function addTask(Request $request)
     {
-        $task = new Task;
         $deadline = $request->input('deadline');
         $deadline = Carbon::parse($deadline)->format('Y-m-d H:i:s');
         $id = $request->input('employee_id');

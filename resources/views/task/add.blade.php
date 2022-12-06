@@ -19,16 +19,17 @@
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="name" name="name" class="form-control" id="name" placeholder="Name" required>
+                    <input type="name" name="name" class="form-control" id="name" placeholder="Name" value="{{old('name')}}" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Deadline</label>
-                    <input type="datetime-local" class="form-control" name="deadline" id="email" placeholder="Email address" required>
+                    <input type="datetime-local" class="form-control" name="deadline" id="email" value="{{old('deadline')}}" required>
                 </div>
 
                  <div class="mb-3">
                     <label for="employee_id" class="form-label">Employee ID</label>
-                    <input type="number" class="form-control" step='1' name="employee_id" id="employee_id" placeholder="ID" min="1" required>
+                    <input type="number" class="form-control" step='1' name="employee_id" id="employee_id" 
+                        placeholder="ID" min="1" value="{{old('employee_id')}}" required>
                 </div>
 
                 <button type="submit" class="btn btn-danger">Add Task</button>

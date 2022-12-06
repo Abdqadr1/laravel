@@ -33,4 +33,9 @@ class Employee extends Model
             $this->address()->create($values);
         }
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'employee_role')->withPivot('name');
+    }
 }

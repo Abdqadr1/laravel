@@ -11,14 +11,15 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="name" name="name" class="form-control" id="name" placeholder="Name" value="{{$employee->name}}">
+                        @error('name')
+                            <p class="text-danger p-2 ps-0">{{$message}}</p>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" name="email" id="email" placeholder="Email address" value="{{$employee->email}}">
                         @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                            <p class="text-danger p-2 ps-0">{{$message}}</p>
                         @enderror
                     </div>
                     <div class="mb-3">
@@ -29,6 +30,9 @@
                         <label for="salary" class="form-label">Salary</label>
                         <input type="number" name="salary" class="form-control" id="salary" step="0.01"
                             placeholder="Salary" value="{{$employee->salary}}">
+                            @error('salary')
+                                <p class="text-danger p-2 ps-0">{{$message}}</p>
+                            @enderror
                     </div>
                     <div class="form-floating mb-3">
                         <input  name="address" class="form-control" id="address" placeholder="Address" value="{{$employee->address->street}}" required>
@@ -46,7 +50,7 @@
                     @foreach ($roles as $role)
                         <div class="form-check">
                             <input name="roles[]" class="form-check-input" type="checkbox" value="{{$role->id}}" 
-                                id="{{$role->name}}" {{ ($emp_roles->contains($role->id)) ? 'checked' : '' }} >
+                                id="{{$role->name}}" @checked($emp_roles->contains($role->id))>
                             <label class="form-check-label" for="{{$role->name}}">
                                 {{$role->name}}
                             </label>

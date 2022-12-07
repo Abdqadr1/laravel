@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeRequest;
 use App\Models\Address;
 use App\Models\Employee;
 use App\Models\Role;
@@ -50,8 +51,9 @@ class EmployeeController extends Controller
         return view('employee.settings');
     }
 
-    public function addEmployee(Request $request)
+    public function addEmployee(EmployeeRequest $request)
     {
+
         $employee = new Employee;
         $employee->name = $request->name;
         $employee->status = $request->boolean('status');
@@ -96,7 +98,7 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function editEmployee(Request $request)
+    public function editEmployee(EmployeeRequest $request)
     {
         $id = $request->route('id');
         foreach ($request->roles as $role) error_log($role);
@@ -104,7 +106,6 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $employee->update([
             'name' => $request->name,
-            'email' => $request->email,
             'status' => $request->boolean('status'),
             'salary' => $request->salary,
         ]);

@@ -13,6 +13,11 @@ class Role extends Model
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class, 'employee_role');
+        return $this->morphedByMany(Employee::class, 'rolable');
+    }
+
+    public function users()
+    {
+        return $this->morphedByMany(User::class, 'rolable');
     }
 }

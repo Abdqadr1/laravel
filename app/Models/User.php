@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -41,4 +42,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->morphToMany(Role::class, 'rolable', 'rolables', 'rolable_id', 'role_id', 'id', 'id');
+    }
+
+    public function hasRole(string $roleName)
+    {
+        // dd(Employee::fin);
+        foreach ($this->roles()->get() as $role) {
+            if (strtolower($role->name) === strtolower($roleName)) return true;
+        }
+        return false;
+    }
 }

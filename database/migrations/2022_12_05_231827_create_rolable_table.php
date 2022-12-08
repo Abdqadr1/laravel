@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    private $tableName = "rolables";
     /**
      * Run the migrations.
      *
@@ -15,11 +16,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employee_role', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Employee::class, "employee_id")->constrained('employees');
-            $table->foreignIdFor(Role::class, "role_id")->constrained('roles');
-            // $table->timestamps();
+        Schema::create($this->tableName, function (Blueprint $table) {
+            $table->bigInteger('role_id');
+            $table->bigInteger('rolable_id');
+            $table->string('rolable_type');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee_role');
+        Schema::dropIfExists($this->tableName);
     }
 };

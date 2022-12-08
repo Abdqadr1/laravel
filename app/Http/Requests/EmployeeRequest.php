@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class EmployeeRequest extends FormRequest
 {
 
-    private $name_min = 15;
+    private $name_min = 8;
 
     // protected $stopOnFirstFailure = true;
     // protected $redirect = '/home';

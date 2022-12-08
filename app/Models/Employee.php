@@ -36,6 +36,6 @@ class Employee extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'employee_role');
+        return $this->morphToMany(Role::class, 'rolable', 'rolables', 'rolable_id', 'role_id', 'id', 'id');
     }
 }

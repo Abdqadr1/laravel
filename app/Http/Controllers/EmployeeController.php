@@ -10,6 +10,7 @@ use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class EmployeeController extends Controller
 {
@@ -36,8 +37,12 @@ class EmployeeController extends Controller
 
     public function add()
     {
-        $roles = Role::orderBy("name")->get();
-        return view('employee.add', ['roles' => $roles]);
+        $response = Gate::authorize('add-employee');
+        if ($response->allowed()) {
+            $roles = Role::orderBy("name")->get();
+            return view('employee.add', ['roles' => $roles]);
+        }
+        echo $response->message();
     }
 
     public function task()

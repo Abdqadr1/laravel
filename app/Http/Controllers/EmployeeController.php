@@ -37,17 +37,13 @@ class EmployeeController extends Controller
 
     public function add()
     {
-        $response = Gate::authorize('add-employee');
-        if ($response->allowed()) {
-            $roles = Role::orderBy("name")->get();
-            return view('employee.add', ['roles' => $roles]);
-        }
-        echo $response->message();
+        $this->authorize('create', Employee::class);
+        $roles = Role::orderBy("name")->get();
+        return view('employee.add', ['roles' => $roles]);
     }
 
     public function task()
     {
-
         return view('task.add');
     }
 
@@ -58,6 +54,7 @@ class EmployeeController extends Controller
 
     public function addEmployee(EmployeeRequest $request)
     {
+        $this->authorize('create', Employee::class);
 
         $employee = new Employee;
         $employee->name = $request->name;

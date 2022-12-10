@@ -50,8 +50,8 @@ class User extends Authenticatable
 
     public function hasRole(string $roleName)
     {
-        // dd(Employee::fin);
-        foreach ($this->roles()->get() as $role) {
+        $roles = $this->roles()->get();
+        foreach ($roles as $role) {
             if (strtolower($role->name) === strtolower($roleName)) return true;
         }
         return false;

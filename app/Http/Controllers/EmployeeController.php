@@ -11,11 +11,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
 {
     //
     const EMPLOYEE_PER_PAGE = 5;
+    const IMAGE_EXTENSIONS = ['png', 'jpeg', 'jpg'];
     public function __construct()
     {
         $this->middleware("auth");
@@ -146,14 +149,36 @@ class EmployeeController extends Controller
         $id = $request->input('employee_id');
         $employee = Employee::find($id);
         if ($employee === null) {
-            return redirect(route('add.task'))->with('error', "Employee with id $id does not exist");
+            return back()->withErrors('employee_id', "Employee with id $id does not exist")->withInput();
         }
-        error_log($deadline);
-        Task::create([
+        $task = Task::create([
             'name' => $request->input('name'),
             'deadline' => $deadline,
-            'task_for' => $id
+            'task_for' => $id,
+            'images' => ''
         ]);
-        return redirect(route('add.task'))->with('message', "Task added successfully");
+        $photoName = "images";
+        $images = $request->file($photoName);
+        if ($request->hasFile($photoName)) {
+            $notSupported = collect($images)->contains(function ($image, $key) {
+                $ext = $image->extension();
+                $size = $image->getSize();
+                return !in_array($ext, $this::IMAGE_EXTENSIONS) || $size > 1024000;
+            });
+            if ($notSupported) {
+                return back()->withErrors(['images' => 'One of your files is not valid'])->withInput();
+            }
+            $array = [];
+            foreach ($images as $image) {
+                $ext = $image->extension();
+                $fileName = $image->hashName();
+                $path = Storage::putFileAs("tasks/$task->id", $image, $fileName);
+                array_push($array, $path);
+            }
+        }
+        $task->update([
+            'images' => $array
+        ]);
+        return redirect()->back()->with('message', "Task added successfully");
     }
 }

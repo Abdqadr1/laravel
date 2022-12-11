@@ -60,9 +60,16 @@
                 <h4 class="text-center mb-2">Tasks</h4>
                 @if (count($employee->tasks) > 0)
                     @foreach ($employee->tasks as $task)
-                        <div class="p-3 border border-success rounded d-flex justify-content-center my-2">
-                            <span class="me-2">{{ $task->name }}</span>
-                            <span class="ms-2">{{ $task->deadline }}</span>
+                        <div class="p-3 border border-success rounded row justify-content-center my-2">
+                            <span class="col-6">{{ $task->name }}</span>
+                            <span class="col-6">{{ $task->deadline }}</span>
+                            @if (is_array($task->images) && count($task->images) > 0)
+                                <div class="col-11">
+                                    @foreach ($task->images as $image)
+                                        <img src="{{url($image)}}" class="task-img" alt="">
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     @endforeach
                 @else

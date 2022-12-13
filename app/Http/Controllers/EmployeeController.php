@@ -9,10 +9,7 @@ use App\Models\Role;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
 {
@@ -135,10 +132,15 @@ class EmployeeController extends Controller
     public function delete($id)
     {
         $employee = Employee::findOrFail($id);
+        $tasks = $employee->tasks;
+        if (count($tasks) > 0) {
+            foreach ($tasks as $task) {
+                Storage::deleteDirectory("tasks/$task->id");
+            }
+        }
         $employee->roles()->detach();
         $employee->delete();
-        // dd($employee);
-        return redirect(route('view'))->with('message', 'Employee deleted successfully');
+        return back()->with('message', 'Employee deleted successfully');
     }
 
 
@@ -149,7 +151,7 @@ class EmployeeController extends Controller
         $id = $request->input('employee_id');
         $employee = Employee::find($id);
         if ($employee === null) {
-            return back()->withErrors('employee_id', "Employee with id $id does not exist")->withInput();
+            return back()->withErrors(['employee_id' => "Employee with id $id does not exist"])->withInput();
         }
         $task = Task::create([
             'name' => $request->input('name'),
@@ -170,10 +172,8 @@ class EmployeeController extends Controller
             }
             $array = [];
             foreach ($images as $image) {
-                $ext = $image->extension();
-                $fileName = $image->hashName();
-                $path = Storage::putFileAs("tasks/$task->id", $image, $fileName);
-                array_push($array, $path);
+                $path = $image->store("tasks/$task->id", 's3', 'public');
+                array_push($array, Storage::disk('s3')->url($path));
             }
         }
         $task->update([

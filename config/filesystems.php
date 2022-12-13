@@ -66,7 +66,7 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'visibility' => 'public',
-            'throw' => true,
+            'throw' => env('APP_DEBUG', 'false'),
         ],
 
     ],

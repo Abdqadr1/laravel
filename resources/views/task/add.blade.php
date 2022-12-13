@@ -29,10 +29,6 @@
                         <p class="text-danger p-2 ps-0">{{$message}}</p>
                     @enderror
                 </div>
-                 <div class="mb-3">
-                    <label for="formFile" class="form-label">File(s)</label>
-                    <input name="file" class="form-control" type="file" accept="image/*" id="formFile">
-                </div>
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Image(s)</label>
                     <input name="images[]" class="form-control" type="file" accept="image/*" id="formFile" multiple>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
+use App\Http\Service\EmployeeService;
 use App\Models\Address;
 use App\Models\Employee;
 use App\Models\Role;
@@ -15,7 +16,6 @@ class EmployeeController extends Controller
 {
     //
     const EMPLOYEE_PER_PAGE = 5;
-    const IMAGE_EXTENSIONS = ['png', 'jpeg', 'jpg'];
     public function __construct()
     {
         $this->middleware("auth");
@@ -55,35 +55,7 @@ class EmployeeController extends Controller
     public function addEmployee(EmployeeRequest $request)
     {
         $this->authorize('create', Employee::class);
-
-        $employee = new Employee;
-        $employee->name = $request->name;
-        $employee->status = $request->boolean('status');
-        $employee->salary = $request->salary;
-        $email = $request->email;
-        $employee->email = $email;
-        $employee->date_joined = now();
-        $address = new Address;
-        $address->street = $request->input('address');
-        $address->country = $request->input('country');
-
-        // error_log(json_encode($request->roles));
-        // foreach ($request->roles as $role) error_log($role);
-
-        // DB::transaction(function ($employee, $address, $request) {
-        $employee->save();
-        $employee->address()->save($address);
-        $employee->roles()->sync($request->roles);
-        // });
-
-        MailController::sendRegistrationMail([
-            'message' => "You have been registered as an employee at our company",
-            'subject' => "Employee Registration",
-            'from' => "registration@employee.com",
-            'view' => "emails.registration",
-            'to' => $email,
-        ]);
-        return redirect(route('view'))->with('message', 'Employee added successfully');
+        return EmployeeService::addEmployee($request);
     }
 
     public function edit($id)
@@ -102,83 +74,23 @@ class EmployeeController extends Controller
 
     public function editEmployee(EmployeeRequest $request)
     {
-        $id = $request->route('id');
-        foreach ($request->roles as $role) error_log($role);
-
-        $employee = Employee::findOrFail($id);
-        $employee->update([
-            'name' => $request->name,
-            'status' => $request->boolean('status'),
-            'salary' => $request->salary,
-        ]);
-        $employee->setAddress([
-            'street' => $request->address,
-            'country' => empty($request->country) ? "" : $request->country
-        ]);
-
-        $employee->roles()->sync($request->roles);
-
-
-        // MailController::sendRegistrationMail([
-        //     'message' => "Your detail have been updated",
-        //     'subject' => "Employee Registration",
-        //     'from' => "registration@employee.com",
-        //     'view' => "emails.registration",
-        //     'to' => $email,
-        // ]);
-        return redirect(route('view'))->with('message', 'Employee updated successfully');
+        return EmployeeService::editEmployee($request);
     }
 
     public function delete($id)
     {
-        $employee = Employee::findOrFail($id);
-        $tasks = $employee->tasks;
-        if (count($tasks) > 0) {
-            foreach ($tasks as $task) {
-                Storage::deleteDirectory("tasks/$task->id");
-            }
-        }
-        $employee->roles()->detach();
-        $employee->delete();
-        return back()->with('message', 'Employee deleted successfully');
+        return EmployeeService::deleteEmployee($id);
     }
 
 
     public function addTask(Request $request)
     {
-        $deadline = $request->input('deadline');
-        $deadline = Carbon::parse($deadline)->format('Y-m-d H:i:s');
-        $id = $request->input('employee_id');
-        $employee = Employee::find($id);
-        if ($employee === null) {
-            return back()->withErrors(['employee_id' => "Employee with id $id does not exist"])->withInput();
+        $result = EmployeeService::addTaskToEmployee($request);
+        error_log(json_encode($result));
+        if (!$result['isDone']) {
+            return back()->withErrors([$request['key'] => $request['message']])->withInput();
         }
-        $task = Task::create([
-            'name' => $request->input('name'),
-            'deadline' => $deadline,
-            'task_for' => $id,
-            'images' => ''
-        ]);
-        $photoName = "images";
-        $images = $request->file($photoName);
-        if ($request->hasFile($photoName)) {
-            $notSupported = collect($images)->contains(function ($image, $key) {
-                $ext = $image->extension();
-                $size = $image->getSize();
-                return !in_array($ext, $this::IMAGE_EXTENSIONS) || $size > 1024000;
-            });
-            if ($notSupported) {
-                return back()->withErrors(['images' => 'One of your files is not valid'])->withInput();
-            }
-            $array = [];
-            foreach ($images as $image) {
-                $path = $image->store("tasks/$task->id", 's3', 'public');
-                array_push($array, Storage::disk('s3')->url($path));
-            }
-        }
-        $task->update([
-            'images' => $array
-        ]);
+
         return redirect()->back()->with('message', "Task added successfully");
     }
 }

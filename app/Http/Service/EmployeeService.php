@@ -2,7 +2,7 @@
 
 namespace App\Http\Service;
 
-use App\Http\Controllers\MailController;
+use App\Events\EmployeeRegistered;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Address;
 use Illuminate\Http\Request;
@@ -129,13 +129,8 @@ class EmployeeService
         $employee->roles()->sync($request->roles);
         // });
 
-        MailController::sendRegistrationMail([
-            'message' => "You have been registered as an employee at our company",
-            'subject' => "Employee Registration",
-            'from' => "registration@employee.com",
-            'view' => "emails.registration",
-            'to' => $email,
-        ]);
+        EmployeeRegistered::dispatch($employee);
+
         return redirect(route('view'))->with('message', 'Employee added successfully');
     }
 }

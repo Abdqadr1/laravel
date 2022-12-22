@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Task;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 
 class EmployeeService
@@ -132,5 +133,27 @@ class EmployeeService
         EmployeeRegistered::dispatch($employee);
 
         return redirect(route('view'))->with('message', 'Employee added successfully');
+    }
+
+    public static function exe()
+    {
+        error_log("testing rate limit");
+    }
+    public static function testRateLimit()
+    {
+        $key = __FUNCTION__;
+        RateLimiter::attempt(
+            $key,
+            $perMinute = 5,
+            function () {
+                EmployeeService::exe();
+            }
+        );
+        if (RateLimiter::tooManyAttempts($key, $perMinute = 5)) {
+            RateLimiter::hit($key);
+            EmployeeService::exe();
+            // $seconds = RateLimiter::availableIn($key);
+            // error_log("Rate Limiting: Too many attempts, try again in $seconds seconds.");
+        }
     }
 }

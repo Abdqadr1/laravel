@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 
@@ -15,15 +17,26 @@ use App\Http\Controllers\EmployeeController;
 */
 
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect(route('home'));
 });
 
-Auth::routes([
-    'register' => false
-]);
+// Route::get('/login', function () {
+//     return view('auth.login');
+// })->name('login');
+
+
+Route::get('/admin/login', [LoginController::class, 'showAdminLoginForm'])->name('admin.login-view');
+Route::post('/admin/login', [LoginController::class, 'adminLogin'])->name('admin.login');
+
+Route::get('/admin/register', [RegisterController::class, 'showAdminRegistrationForm'])->name('admin.register-view');
+Route::post('/admin/register', [RegisterController::class, 'createAdmin'])->name('admin.register');
+
+Route::get('/admin', function () {
+    return view('admin.home');
+})->middleware('auth:admin');
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 Route::get('/view', [EmployeeController::class, 'view'])->name('view');
 
@@ -38,3 +51,7 @@ Route::delete('/employee/delete/{id}', [EmployeeController::class, 'delete'])->n
 Route::get('/task/add', [EmployeeController::class, 'task'])->name('task');
 
 Route::get('/settings', [EmployeeController::class, 'settings'])->name('settings');
+
+Auth::routes([
+    'register' => false
+]);

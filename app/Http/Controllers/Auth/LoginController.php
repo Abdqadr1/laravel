@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\Recaptcha;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -39,7 +41,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:admin')->except('adminLogout');
     }
 
     public function showAdminLoginForm()
@@ -49,33 +51,32 @@ class LoginController extends Controller
 
     public function adminLogin(Request $request)
     {
+
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'g-recaptcha-response' => ['required', 'captcha']
         ]);
+        error_log('validated input');
+
+
         if (Auth::guard('admin')->attempt($request->only(['email', 'password']))) {
             return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
         }
 
-        return back()->withInput($request->only(['email', 'remember']));
+        throw ValidationException::withMessages([
+            'email' => [trans('auth.failed')],
+        ]);
     }
 
-    public function logout(Request $request)
+    public function adminLogout(Request $request)
     {
-        $guard = $this->guard();
-
-        $guard->logout();
+        Auth::guard('admin')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        if ($response = $this->loggedOut($request)) {
-            return $response;
-        }
-
-        return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : redirect('/');
+        return redirect(route('admin.login-view'));
     }
 }

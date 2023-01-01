@@ -59,7 +59,6 @@ class Handler extends ExceptionHandler
             return redirect()->guest(route('admin.login-view'));
         }
 
-        error_log('unauthenticated - user');
         return redirect()->guest(route('login'));
     }
 }

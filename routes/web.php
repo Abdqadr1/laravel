@@ -28,6 +28,9 @@ Route::get('/', function () {
 Route::get('/admin/login', [LoginController::class, 'showAdminLoginForm'])->name('admin.login-view');
 Route::post('/admin/login', [LoginController::class, 'adminLogin'])->name('admin.login');
 
+
+Route::post('/admin/logout', [LoginController::class, 'adminLogout'])->name('admin.logout');
+
 Route::get('/admin/register', [RegisterController::class, 'showAdminRegistrationForm'])->name('admin.register-view');
 Route::post('/admin/register', [RegisterController::class, 'createAdmin'])->name('admin.register');
 

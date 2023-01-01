@@ -1,14 +1,15 @@
 @extends('admin.app')
 
 @section('content')
-<div class="container">
+<div class="container"> 
+    {!! NoCaptcha::renderJs() !!}
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Admin Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.login') }}">
+                    <form method="POST" action="{{ route('admin.login') }}" id="loginForm">
                         @csrf
 
                         <div class="row mb-3">
@@ -38,7 +39,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
@@ -47,6 +47,19 @@
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
                                     </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check px-0">
+                                    {!! NoCaptcha::display(['data-theme' => 'light']) !!}
+                                    @if ($errors->has('g-recaptcha-response'))
+                                        <span class="help-block">
+                                                <strong class="err">{{ $errors->first('g-recaptcha-response') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -69,5 +82,6 @@
             </div>
         </div>
     </div>
+    </script>
 </div>
 @endsection

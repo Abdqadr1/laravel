@@ -21,9 +21,7 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        error_log($request->url());
         foreach ($guards as $guard) {
-            error_log($guard);
             if ($guard == 'admin' && ($request->is('admin') || $request->is('admin/*')) &&  Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::ADMIN_HOME);
             }
@@ -36,8 +34,6 @@ class RedirectIfAuthenticated
                 return redirect(RouteServiceProvider::HOME);
             }
         }
-
-        error_log("redirecting...");
         return $next($request);
     }
 }

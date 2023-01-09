@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use Laravel\Ui\Presets\React;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,11 @@ use App\Http\Controllers\EmployeeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::view('/react', 'react');
+Route::view('/react/{path?}', 'react')
+    ->where('path', '.*');
+
 
 Route::get('/', function () {
     return redirect(route('home'));

@@ -49,6 +49,8 @@ class LoginController extends Controller
         return view('admin.login', ['url' => route('admin.login-view'), 'title' => 'Admin Login']);
     }
 
+
+
     public function adminLogin(Request $request)
     {
 

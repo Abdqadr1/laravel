@@ -1,0 +1,42 @@
+export const LIST = [
+    {
+        image: 'images/imgur2.jpeg',
+        title: "Getting it right the first time",
+        summary: "The Video description is shown here if the user has added it.",
+        size: '2.5MB',
+        views: 345,
+        lastModified: '1 Months ago',
+    },
+    {
+        image: 'images/imgur1.jpeg',
+        title: "Getting it right the first time",
+        summary: "The Video description is shown here if the user has added it.",
+        size: '980KB',
+        views: 2542,
+        lastModified: '2 Months ago',
+    },
+    {
+        image: 'images/imgur2.jpeg',
+        title: "Getting it right the first time",
+        summary: "The Video description is shown here if the user has added it.",
+        size: '980KB',
+        views: 678,
+        lastModified: '3 Months ago',
+    },
+    {
+        image: 'images/imgur3.jpeg',
+        title: "Getting it right the first time",
+        summary: "The Video description is shown here if the user has added it.",
+        size: '1MB',
+        views: 467,
+        lastModified: '5 Months ago',
+    },
+    {
+        image: 'images/imgur1.jpeg',
+        title: "Getting it right the first time",
+        summary: "The Video description is shown here if the user has added it.",
+        size: '350KB',
+        views: 345,
+        lastModified: '5 Months ago',
+    },
+]

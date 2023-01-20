@@ -1,0 +1,59 @@
+.head button{
+    border-radius: 28px !important;
+}
+.head{
+    column-gap: 1em;
+}
+
+.nav-link.active{
+    border-top: 3px solid #0DABD8;
+}
+.border-dash{
+    border-style: dashed !important;
+}
+
+button{
+    border-radius: 28px !important;
+}
+button.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 1em;
+    column-gap: 8px;
+}
+.video{
+    height: 400px;
+    width: 100%;
+    padding: 0;
+    background: #21455E 0% 0% no-repeat padding-box;
+    border-radius: 8px;
+    opacity: 1;
+    margin-block: 0 2em;
+}
+body{
+    font: normal normal normal 14px/26px Nunito !important;
+    padding: 0 !important;
+}
+
+table div.img{
+    width: 150px;
+    height: 65px;
+    position: relative;
+}
+
+table img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    font-size: xx-small;
+    border-radius: 1em;
+}
+table .time{
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: xx-small;
+    line-height: 1;
+    padding: 3px;
+}

@@ -67,7 +67,10 @@
         <p class="mb-2 fs-6 d-flex align-items-center">
           <iconify-icon class="text-danger me-2" icon="ph:record-fill"></iconify-icon>Live Preview
         </p>
-        <video class="video" src autoplay playsinline id="video"></video>
+        <div class='display'>
+          <video class="video" src autoplay playsinline controls loop id="screen"></video>
+          <video v-if="screen" class="video" src autoplay playsinline controls loop id="camera"></video>
+        </div>
         <button type="button" disabled class="btn btn-primary mx-auto d-block mt-3">Start Recording</button>
       </div>
     </div>
@@ -228,7 +231,7 @@ export default {
     // whenever question changes, this function will run
     isRecording(newValue) {
       if (newValue) {
-        Recorder.record('video', this.screen, this.camera, this.mic);
+        Recorder.record(this.screen, this.camera, this.mic);
         this.closeModal();
       }
     }

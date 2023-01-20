@@ -22,14 +22,27 @@ button.flex{
     padding-inline: 1em;
     column-gap: 8px;
 }
+.display{
+    position: relative;
+}
 .video{
-    height: 400px;
-    width: 100%;
     padding: 0;
     background: #21455E 0% 0% no-repeat padding-box;
-    border-radius: 8px;
     opacity: 1;
+}
+.video#screen{
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
     margin-block: 0 2em;
+}
+.video#camera{
+    height: 150px;
+    width: 150px;
+    position: absolute;
+    bottom: 50px;
+    right: 20px;
+    border-radius: 50%;
 }
 body{
     font: normal normal normal 14px/26px Nunito !important;

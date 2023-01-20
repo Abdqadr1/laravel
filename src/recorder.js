@@ -1,38 +1,43 @@
 export default class Recorder {
 
-    static async init(constraints,videoElement) {
+    static async init(constraints, screen) {
+        let camStream, screenStream;
         try {
-            const stream = await navigator.mediaDevices.getUserMedia(constraints);
-            this.handleStream(stream, videoElement);
+            camStream = await navigator.mediaDevices.getUserMedia(constraints);
+            if(screen){
+                screenStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: true,
+                    audio: true
+                });
+            }
+            if(camStream){
+                const el = screen ? 'camera' : 'screen';
+                this.handleStream(camStream, document.querySelector(`video#${el}`));
+            }
+
+            if(screenStream){
+                this.handleStream(screenStream, document.querySelector(`video#screen`));
+            }
         } catch (e) {
             console.error('error occurs', e);
         }
     }
 
     static handleStream(stream, videoElement) {
-        window.stream = stream;
         videoElement.srcObject = stream;
     }
 
-    static record(elementId, screen = false, camera = false, audio = false) {
-        const videoElement = document.querySelector(`video#${elementId}`);
+    static record(screen = false, camera = false, audio = false) {
         const constraints = {};
         if (audio) constraints.audio = {
             echoCancellation: {
                 exact: true,
             }
         };
-        if(camera) constraints.video = {
-                width: 1280, height: 780
-            }
+        if(camera) constraints.video = true;
 
-        if(screen){
-            constraints.video = {
-                mediaSource: "screen", width: 1280, height: 780
-            }
-        }
 
-        this.init(constraints, videoElement);
+        this.init(constraints, screen);
     }
     
 }

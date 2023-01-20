@@ -5,10 +5,7 @@ export default class Recorder {
         try {
             camStream = await navigator.mediaDevices.getUserMedia(constraints);
             if(screen){
-                screenStream = await navigator.mediaDevices.getDisplayMedia({
-                    video: true,
-                    audio: true
-                });
+                screenStream = await navigator.mediaDevices.getDisplayMedia(screen);
             }
             if(camStream){
                 const el = screen ? 'camera' : 'screen';
@@ -35,6 +32,11 @@ export default class Recorder {
             }
         };
         if(camera) constraints.video = true;
+
+        if(screen){
+            screen = {video: true};
+            if(audio) screen.audio = true;
+        }
 
 
         this.init(constraints, screen);
